@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      background-color: rgb(28, 155, 155);
+      background-image: url("https://static.scientificamerican.com/sciam/cache/file/8EAE8DB4-E8AD-4D8B-BFBAC1CA7EEABDFB_source.jpeg?w=1350");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    #zipCode {
+      font-size: 2rem;
+      height: 2rem;
+    }
+    .style_body {
+      justify-content: center;
+      display: flex;
+      height: 80vh;
+      width: 100vw;
+      align-items: center;
+    }
+    .semiTransparentRectangle {
+      background-color: rgba(47, 141, 224, 0.65);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="style_body">
+    <div class="semiTransparentRectangle">
+      <section style="text-align: center">
+        <span
+          style="
+            font-size: 5rem;
+            color: rgb(228, 227, 217);
+            text-shadow: 4px 2px #000000;
+          "
+          >Weather Search</span
+        >
+        <form><input type="text" placeholder="zip" id="zipCode" /></form>
+      </section>
+    </div>
+  </div>
+</body>
+<footer></footer>
+<script>
+  const input = window.document.querySelector("#zipCode");
+  input.addEventListener("input", logKey);
+
+  function logKey(e) {
+    fetchWeather(e.target.value);
+    console.log(e.target.value);
+  }
+
+  function fetchWeather(zipCode) {
+    console.log(`Fetching weather for zip code: ${zipCode}`);
+  }
+</script>
