@@ -26,6 +26,17 @@
       border-radius: 10px;
       text-align: center;
     }
+    .weatherContainer {
+      margin-top: 20px;
+      text-align: center;
+      
+    }
+    .weatherContent {
+      background-color: azure;
+      display: inline-block;
+      padding: 10px;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
@@ -42,6 +53,7 @@
         >
         <form><input type="text" placeholder="zip" id="zipCode" /></form>
       </section>
+      <div class="weather-container"></div>
     </div>
   </div>
 </body>
@@ -51,11 +63,51 @@
   input.addEventListener("input", logKey);
 
   function logKey(e) {
-    fetchWeather(e.target.value);
-    console.log(e.target.value);
+    const zipcode = e.target.value;
+    if (zipcode.length === 5){
+    fetchWeather(zipcode);
+    }
+    // console.log(e.target.value);
   }
 
-  function fetchWeather(zipCode) {
-    console.log(`Fetching weather for zip code: ${zipCode}`);
+  async function fetchWeather(zipCode) {
+    // console.log(`Fetching weather for zip code: ${zipCode}`);
+
+    const apiKey = 'a919320e5c6747e4abf40341242809';
+    const apiURL = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${zipCode}`
+
+    const response = await fetch(apiURL);
+    const weatherData = await response.json();
+    
+    console.log('Weather data:', weatherData);
+    const {location, current} = weatherData;
+    const city = location.name;
+    const state = location.region;
+    const temperature = current.temp_f;
+    const currentConditionImage = `https:${current.condition.icon}`;
+    const currentConditionText = current.condition.text;
+    const humidity = current.humidity;
+
+    displayWeather(city, state, temperature, humidity, currentConditionImage, currentConditionText);
+  }
+
+  function displayWeather(city, state, temperature, humidity, currentConditionImage, currentConditionText) {
+
+    const weatherContainer = document.querySelector('.weather-container');
+
+    weatherContainer.innerHTML = '';
+
+    const weatherContent = `
+    <div class="weatherContent">
+    <h2>${city}, ${state}</h2>
+    <p>Temperature: ${temperature}°F </p>
+    <p>Humidity: ${humidity} </p>
+    <img src="${currentConditionImage}" alt="Weather Icon"> 
+    <p> ${currentConditionText} </p>
+    </div>
+    `;
+
+    weatherContainer.innerHTML = weatherContent;
+
   }
 </script>
